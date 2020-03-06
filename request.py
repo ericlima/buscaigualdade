@@ -2,7 +2,7 @@
 import requests 
 
 # api-endpoint 
-URL = "https://dre.pt/web/guest/home/-/dre/calendar/normal/I?day=2020-03-04&date=2020-03-01"
+URL = "https://dre.pt/web/guest/home/-/dre/calendar/normal/I?day=2020-03-04" #&date=2020-03-01"
 
 # location given here 
 location = "dre.pt"
@@ -14,6 +14,9 @@ PARAMS = {'address':location}
 r = requests.get(url = URL, params = PARAMS) 
 
 # Documento em formato PDF
+# href="/application/conteudo/
 
-print(r.content)
+pos = r.content.decode("utf-8").find("/application/conteudo/")
+
+print(pos)
 
