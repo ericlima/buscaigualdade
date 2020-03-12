@@ -33,7 +33,7 @@ location = "dre.pt"
 PARAMS = {'address':location} 
 
 for d in date_list:
-    url2 = url + d.isoformat()
+    url2 = URL + d.isoformat()
     print(url2)
 
     # sending get request and saving the response as response object 
