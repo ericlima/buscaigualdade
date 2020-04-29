@@ -11,3 +11,6 @@ sudo apt install pipenv
 pipenv install
 
 pip install pdftotext
+
+#to run
+python3 request.py
