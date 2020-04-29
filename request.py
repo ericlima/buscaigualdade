@@ -1,32 +1,33 @@
 # importing the requests library 
 import requests 
-
 import urllib.request as urllib2
-
 import datetime
-
 import os
-
+import os.path
 import sys
 
 def download_file(url):
     try:
         elements = url.split("/")
         pdf_file = urllib2.urlopen(url)
-        with open(DOWNLOADS + elements[-1]+'.pdf','wb') as output:
-            output.write(pdf_file.read())
+        pdf_path = DOWNLOADS + elements[-1]+'.pdf'
+        if not os.path.exists(pdf_path):
+            with open(pdf_path,'wb') as output:
+                output.write(pdf_file.read())
         return elements[-1]
     except:
-        print("Unexpected error:", sys.exc_info()[0])
+        print("error:", sys.exc_info()[0], ' = ', url)
         return ""
 
-inicio = datetime.date.today() - datetime.timedelta(days=30)
+TEXT_TO_SEARCH = "Estatuto de Igualdade de Direitos e Deveres"
+
+numdays = 180
+
+inicio = datetime.date.today() - datetime.timedelta(days=numdays)
 fim = datetime.date.today()
 
 print("Inicio:",inicio)
 print("fim:",fim)
-
-numdays = 30
 
 base = datetime.date.today()
 date_list = [base - datetime.timedelta(days=x) for x in range(numdays)]
@@ -63,9 +64,14 @@ for d in date_list:
 
     if (len(arq)>1):
         print(arq)
-        text = os.popen("pdftotext {}".format(DOWNLOADS + arq + '.pdf')).read()
-        with open(DOWNLOADS + arq + '.txt') as f:
-            if 'Porto Seguro' in f.read():
-                print("porto seguro = true")
+        pdf_path = DOWNLOADS + arq + '.pdf'
+        txt_path = DOWNLOADS + arq + '.txt'
+        if not os.path.exists(txt_path): 
+            os.popen("pdftotext {}".format(pdf_path)).read()
+
+        if os.path.exists(txt_path):
+            with open(txt_path) as f:
+                if TEXT_TO_SEARCH in f.read():
+                    print(TEXT_TO_SEARCH +" = true")
 
     #print(text)
